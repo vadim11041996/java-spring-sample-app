@@ -1,0 +1,18 @@
+name: CI on merge 
+
+on: 
+  push:
+    branches: master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker image
+      run: |
+        docker login docker.pkg.github.com --username vadim11041996 --password ${{ secrets.GITHUB_TOKEN }}
+        docker build . --file Dockerfile --tag docker.pkg.github.com/vadim11041996/java-spring-sample-app/app:latest
+        docker push docker.pkg.github.com/vadim11041996/java-spring-sample-app/app:latest
